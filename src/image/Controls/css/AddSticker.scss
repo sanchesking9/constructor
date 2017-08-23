@@ -1,0 +1,19 @@
+@import "../../../css/variables";
+
+.AddSticker {
+  .sticker-popup {
+    position: absolute;
+    width: 210px;
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid $controlColor;
+
+    img {
+      width: 100px;
+    }
+  }
+}

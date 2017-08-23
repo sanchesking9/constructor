@@ -1,0 +1,8 @@
+.add-image {
+  position: relative; }
+  .add-image input[type="file"] {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    left: 0; }

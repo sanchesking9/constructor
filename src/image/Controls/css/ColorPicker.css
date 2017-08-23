@@ -1,0 +1,18 @@
+.color-picker {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .color-picker .text-color {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid; }
+    .color-picker .text-color .text-color-picker {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      z-index: 1; }

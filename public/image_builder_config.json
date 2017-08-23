@@ -1,0 +1,44 @@
+{
+  "title": "Image builder",
+  "controls":[
+    "ColorPicker",
+    "AddText",
+    "AddImage",
+    "AddSquare",
+    "AddCircle",
+    "ChangeColorForSelected",
+    "DeleteSelectedObjects",
+    "AddSticker"
+  ],
+  "stickers": [
+    "/stickers_pack/st.png",
+    "/stickers_pack/st1.png",
+    "/stickers_pack/st2.png",
+    "/stickers_pack/st3.png",
+    "/stickers_pack/st4.png",
+    "/stickers_pack/st5.png",
+    "/stickers_pack/st6.png",
+    "/stickers_pack/st7.png",
+    "/stickers_pack/st8.png",
+    "/stickers_pack/st9.png",
+    "/stickers_pack/st10.png",
+    "/stickers_pack/st11.png"
+  ],
+  "background": "/t-short.png",
+  "sidesBackground": [
+    {
+      "side": "front",
+      "background": "/t-short.png"
+    },
+    {
+      "side": "back",
+      "background": "/t-short-back.png"
+    }
+  ],
+  "frame": {
+    "left": 70,
+    "top": 40,
+    "width": 160,
+    "height": 240
+  }
+}
