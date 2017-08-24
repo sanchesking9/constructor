@@ -33,23 +33,23 @@ class AddSticker extends Component {
     img.src = dataURL;
   };
 
+  hide() {
+    this.setState({ showPopup: false })
+  }
+
   render() {
     const {config} = this.props.image;
     console.log(config);
     return (<div className="AddSticker">
       <Button onClick={this.showSticker}>Add sticker</Button>
-      {this.state.showPopup && <ClickOutside onClickOutside={this.hide}>
+      {this.state.showPopup && <ClickOutside onClickOutside={this.hide.bind(this)}>
         <div className="sticker-popup">
-          {config.config && config.config.stickers && config.config.stickers.map((item, index) => {
-            return <div key={index} onClick={this.addImage.bind(this, item)}><img src={item} /></div>
+          {config && config.stickers && config.stickers.map((item, index) => {
+            return <div key={index} onClick={this.addImage.bind(this, item)}><img alt="img" src={item} /></div>
           })}
         </div>
       </ClickOutside>}
     </div>);
-  }
-
-  hide() {
-    this.setState({ showPopup: false })
   }
 }
 

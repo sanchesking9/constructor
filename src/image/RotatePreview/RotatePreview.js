@@ -1,31 +1,27 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {setSide} from '../../actions/currentSide';
 
 class RotatePreview extends Component {
-  state = {
-    currentSide: 'front',
-  };
+  state = {}
 
   changeSide(e) {
-    const {config, canvas, addFrame, addBackground} = this.props;
-    const {currentSide} = this.state;
+    const {config, canvas, setSide, addFrame, addBackground, currentSide, test, test2} = this.props;
     const side = e.currentTarget.dataset.side;
     const imgUrl = config.sidesBackground.find(item => item.side === side).background;
 
     if (side !== currentSide) {
       this.setState({
-        [currentSide]: [...canvas.getObjects()],
-        currentSide: side,
+        [currentSide]: canvas.toJSON(['selectable', 'evented']),
         currentImg: imgUrl,
       });
 
+      setSide(side);
+
       canvas.clear();
 
-      if (this.state[side] && this.state[side].length) {
-        addBackground(imgUrl);
-        for (let i = 0; i < this.state[side].length; i += 1) {
-          canvas.add(this.state[side][i])
-        }
+      if (this.state[side]) {
+        canvas.loadFromJSON(this.state[side], canvas.renderAll.bind(this));
       } else {
         addBackground(imgUrl);
         addFrame()
@@ -67,10 +63,11 @@ class RotatePreview extends Component {
               <li key={index}>
                 <div className="title">{item.side}</div>
                 <img
-                  className={item.side === this.state.currentSide && 'selected'}
+                  className={item.side === this.props.currentSide && 'selected'}
                   data-side={item.side}
                   onClick={this.changeSide.bind(this)}
                   src={item.background}
+                  alt="t-short"
                 />
               </li>
             )
@@ -80,7 +77,7 @@ class RotatePreview extends Component {
           <a
             className="download-link"
             ref={link => this.link = link}
-            href='#' onClick={this.download.bind(this)}
+            href='' onClick={this.download.bind(this)}
             download='test.png'>
             Save
           </a>
@@ -89,16 +86,12 @@ class RotatePreview extends Component {
             <input ref={saveCheckbox => this.saveCheckbox = saveCheckbox} type="checkbox"/>
           </label>
         </div>
-        <div>
-          <button onClick={this.props.undo}>Undo</button>
-          <button onClick={this.props.redo}>Redo</button>
-        </div>
       </div>
     );
   }
 }
 
 export default connect((state) => {
-  const {image} = state;
-  return {image};
-})(RotatePreview);
+  const {image, currentSide} = state;
+  return {image, currentSide};
+}, {setSide})(RotatePreview);

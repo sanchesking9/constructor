@@ -4,23 +4,18 @@ import {connect} from 'react-redux';
 import {setConfig, setFrame} from '../actions/image';
 import {clipByName, debounce} from '../Utils';
 import RotatePreview from './RotatePreview/RotatePreview';
+import UndoRedo from './UndoRedo/UndoRedo';
 import './css/Image.css';
-var fabric = require('fabric');
+const fabric = require('fabric');
 
 class Image extends Component {
   state = {
     color: '#fff',
     config: {},
-    undoRedo: {
-      currentIndex: 0,
-      maxStateLength: 5,
-      states: [],
-    }
+    loaded: false,
   };
 
   canvasObj = {};
-
-  progress = true;
 
   componentDidMount() {
     this.initFabric();
@@ -33,85 +28,21 @@ class Image extends Component {
       .then((data) => {
         this.setState({
           config: data,
+          loaded: true,
         });
-        this.props.setConfig({config: data});
+        this.props.setConfig(data);
         this.addBackground();
         this.addFrame();
       })
       .then(() => {
         const objectHandler = debounce(() => {
-          if (this.progress) {
-            this.addUndoRedoState(this.canvasObj.toJSON());
-          } else {
-            this.progress = true;
-          }
+            this.UndoRedo.addState()
         }, 300);
+
         this.canvasObj.on('object:added', objectHandler);
 
         this.canvasObj.on('object:modified', objectHandler);
       })
-  }
-
-  addUndoRedoState(state) {
-    let {states, currentIndex, maxStateLength} = this.state.undoRedo
-    let resultState = [];
-
-    if (states.length >= maxStateLength) {
-      resultState = states.slice(1);
-    } else {
-      resultState = states.slice(0, currentIndex + 1)
-    }
-
-    resultState.push(state);
-
-    this.setState({
-      undoRedo: {
-        states: [...resultState],
-        currentIndex: resultState.length - 1
-      }
-    })
-  }
-
-  undo() {
-    const {states, currentIndex} = this.state.undoRedo;
-
-    if (!currentIndex || !states.length) return; // if have no undoState
-
-    this.progress = false;
-
-    this.canvasObj.loadFromJSON(states[this.undoIndex()]);
-  }
-
-  redo() {
-    const {states, currentIndex, maxStateLength} = this.state.undoRedo;
-
-    if (currentIndex >= maxStateLength) return;
-
-    this.progress = false;
-
-    this.canvasObj.loadFromJSON(states[this.redoIndex()]);
-  }
-
-  undoIndex() {
-    const {undoRedo, undoRedo: {currentIndex}} = this.state;
-    const newIndex = currentIndex === 0 ? currentIndex : currentIndex - 1;
-
-    this.setState({
-      undoRedo: Object.assign(undoRedo, {currentIndex: newIndex})
-    })
-
-    return newIndex;
-  }
-
-  redoIndex() {
-    const {undoRedo, undoRedo: {currentIndex, maxStateLength}} = this.state;
-    const newIndex = currentIndex >= maxStateLength ? currentIndex : currentIndex + 1;
-
-    this.setState({
-      undoRedo: Object.assign(undoRedo, {currentIndex: newIndex})
-    })
-
-    return newIndex;
   }
 
   addBackground = (img) => {
@@ -157,11 +88,11 @@ class Image extends Component {
 
   initFabric() {
     const fjs = fabric.fabric;
-    const canvas = this.canvasObj = new fjs.Canvas('canvas', {stateful: true});
+    this.canvasObj = new fjs.Canvas('canvas', {stateful: true});
   }
 
   render() {
-    const {config} = this.state;
+    const {config, loaded} = this.state;
     return (<div className="image">
       <h1>{config.title}</h1>
       <div className="wrapper">
@@ -169,14 +100,23 @@ class Image extends Component {
           <canvas id="canvas" width="300" height="300"></canvas>
           <ControlContainer config={config} fabric={fabric.fabric} canvas={this.canvasObj}/>
         </div>
-        <RotatePreview
-          config={config}
-          addFrame={this.addFrame.bind(this)}
-          addBackground={this.addBackground.bind(this)}
-          canvas={this.canvasObj}
-          undo={this.undo.bind(this)}
-          redo={this.redo.bind(this)}
-        />
+        {loaded &&
+          <div>
+            <RotatePreview
+              config={config}
+              addFrame={this.addFrame.bind(this)}
+              addBackground={this.addBackground.bind(this)}
+              canvas={this.canvasObj}
+            />
+            <UndoRedo
+              config={config}
+              maxStateLength={config.maxStateLength}
+              currentSide={this.props.currentSide}
+              canvas={this.canvasObj}
+              ref= {(UndoRedo) => this.UndoRedo = UndoRedo}
+            />
+          </div>
+        }
       </div>
 
     </div>);
@@ -185,6 +125,6 @@ class Image extends Component {
 
 
 export default connect((state) => {
-  const {image} = state;
-  return {image};
+  const {image, currentSide} = state;
+  return {image, currentSide};
 }, {setConfig, setFrame})(Image);
