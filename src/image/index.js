@@ -17,9 +17,15 @@ class Image extends Component {
 
   canvasObj = {};
 
+  saveState = false;
+
   componentDidMount() {
     this.initFabric();
     this.getConfigs();
+  }
+
+  isSaveState() {
+    this.saveState = true;
   }
 
   getConfigs() {
@@ -36,7 +42,11 @@ class Image extends Component {
       })
       .then(() => {
         const objectHandler = debounce(() => {
-            this.UndoRedo.addState()
+          if (this.saveState) {
+            this.saveState = false;
+            return;
+          }
+          this.UndoRedo.addState()
         }, 300);
 
         this.canvasObj.on('object:added', objectHandler);
@@ -107,6 +117,7 @@ class Image extends Component {
               addFrame={this.addFrame.bind(this)}
               addBackground={this.addBackground.bind(this)}
               canvas={this.canvasObj}
+              isSaveState={this.isSaveState.bind(this)}
             />
             <UndoRedo
               config={config}

@@ -6,11 +6,12 @@ class RotatePreview extends Component {
   state = {}
 
   changeSide(e) {
-    const {config, canvas, setSide, addFrame, addBackground, currentSide, test, test2} = this.props;
+    const {config, canvas, setSide, addFrame, addBackground, currentSide, isSaveState} = this.props;
     const side = e.currentTarget.dataset.side;
     const imgUrl = config.sidesBackground.find(item => item.side === side).background;
 
     if (side !== currentSide) {
+      isSaveState()
       this.setState({
         [currentSide]: canvas.toJSON(['selectable', 'evented']),
         currentImg: imgUrl,
@@ -21,7 +22,7 @@ class RotatePreview extends Component {
       canvas.clear();
 
       if (this.state[side]) {
-        canvas.loadFromJSON(this.state[side], canvas.renderAll.bind(this));
+        canvas.loadFromJSON(this.state[side], canvas.renderAll.bind(canvas));
       } else {
         addBackground(imgUrl);
         addFrame()
@@ -30,11 +31,10 @@ class RotatePreview extends Component {
   }
 
   download() {
-    const {image: {frame}, canvas, addBackground} = this.props;
+    const {image: {frame}, canvas, addBackground, addFrame, isSaveState} = this.props;
 
-    frame.set({
-      opacity: 0,
-    })
+    isSaveState()
+    canvas.remove(frame);
 
     if (this.saveCheckbox.checked) {
       canvas.backgroundImage = null;
@@ -46,9 +46,7 @@ class RotatePreview extends Component {
       addBackground(this.state.currentImg);
     }
 
-    frame.set({
-      opacity: 1,
-    })
+    addFrame();
 
     canvas.renderAll();
   }
