@@ -1,5 +1,41 @@
 import React, { Component } from 'react';
 import * as Controls from './Controls';
+import styled from 'styled-components';
+
+const circleContainer = `
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  left: -40px;
+  top: -40px;
+  pointer-events: none;
+  
+  & > .control {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    pointer-events: auto;
+    margin: -2em;
+  }
+`;
+
+const ControlsContainerDiv = styled.div`
+  position: absolute;
+  width: 370px;
+  top: 0;
+  right: -310px;
+  color: #fff;
+  
+  & > .control {
+      border-radius: 50%;
+      margin-bottom: 10px;
+      display: inline-block;
+      margin-right: 5px;
+  }
+  ${(props) => props.circle && circleContainer}
+`
 
 export default class ControlsContainer extends Component {
   defaultProps = {
@@ -27,10 +63,12 @@ export default class ControlsContainer extends Component {
     const positions = this.getPositions(config.controls.length);
     const controls = config.controls.map((component, index) => {
       const Component = Controls[component];
-      return <div className="control" key={index} style={positions[index]}><Component fabric={fabric} canvas={canvas} /></div>;
+      return <div className={`control ${component}`} key={index} style={positions[index]}><Component fabric={fabric} canvas={canvas} /></div>;
     });
-    return (<div className="controlsContainer circle-container">
-      {controls.map((item) => item)}
-    </div>);
+    return (
+      <ControlsContainerDiv circle>
+        {controls}
+      </ControlsContainerDiv>
+    );
   }
 }

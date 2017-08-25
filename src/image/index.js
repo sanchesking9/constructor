@@ -3,10 +3,26 @@ import ControlContainer from './ControlsContainer';
 import {connect} from 'react-redux';
 import {setConfig, setFrame} from '../actions/image';
 import {clipByName, debounce} from '../Utils';
-import RotatePreview from './RotatePreview/RotatePreview';
-import UndoRedo from './UndoRedo/UndoRedo';
-import './css/Image.css';
+import RotatePreview from './RotatePreview';
+import UndoRedo from './UndoRedo';
+import styled from 'styled-components';
+import './scss/Image.css';
 const fabric = require('fabric');
+
+const Title = styled.h1`
+  text-align: center;
+  margin-bottom: 10px;
+`
+
+const CanvasContainer = styled.div`
+  flex: 0 1 auto;
+  width: 300px;
+  border: 5px solid #004C70;
+  padding: 80px;
+  border-radius: 50%;
+  position: relative;
+  margin: 60px;
+`
 
 class Image extends Component {
   state = {
@@ -103,34 +119,35 @@ class Image extends Component {
 
   render() {
     const {config, loaded} = this.state;
-    return (<div className="image">
-      <h1>{config.title}</h1>
-      <div className="wrapper">
-        <div className="image-canvas-container">
-          <canvas id="canvas" width="300" height="300"></canvas>
-          <ControlContainer config={config} fabric={fabric.fabric} canvas={this.canvasObj}/>
+    return (
+      <div className="image">
+        <Title>{config.title}</Title>
+        <div className="wrapper">
+          <CanvasContainer>
+            <canvas id="canvas" width="300" height="300"></canvas>
+            <ControlContainer config={config} fabric={fabric.fabric} canvas={this.canvasObj}/>
+          </CanvasContainer>
+          {loaded &&
+            <div>
+              <RotatePreview
+                config={config}
+                addFrame={this.addFrame.bind(this)}
+                addBackground={this.addBackground.bind(this)}
+                canvas={this.canvasObj}
+                isSaveState={this.isSaveState.bind(this)}
+              />
+              <UndoRedo
+                config={config}
+                maxStateLength={config.maxStateLength}
+                currentSide={this.props.currentSide}
+                canvas={this.canvasObj}
+                ref= {(UndoRedo) => this.UndoRedo = UndoRedo}
+              />
+            </div>
+          }
         </div>
-        {loaded &&
-          <div>
-            <RotatePreview
-              config={config}
-              addFrame={this.addFrame.bind(this)}
-              addBackground={this.addBackground.bind(this)}
-              canvas={this.canvasObj}
-              isSaveState={this.isSaveState.bind(this)}
-            />
-            <UndoRedo
-              config={config}
-              maxStateLength={config.maxStateLength}
-              currentSide={this.props.currentSide}
-              canvas={this.canvasObj}
-              ref= {(UndoRedo) => this.UndoRedo = UndoRedo}
-            />
-          </div>
-        }
       </div>
-
-    </div>);
+    );
   }
 }
 

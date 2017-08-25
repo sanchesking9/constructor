@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import './App.css';
+import './scss/App.css';
 import Image from './image';
 import reducers from './redusers';
 

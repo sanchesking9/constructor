@@ -13,8 +13,6 @@ export default class DeleteSelectedObjects extends Component {
   };
 
   render() {
-    return (<div>
-      <Button onClick={this.deleteSelectedObjects}>Remove selected objects</Button>
-    </div>);
+    return <Button onClick={this.deleteSelectedObjects}>Remove selected objects</Button>
   }
 }

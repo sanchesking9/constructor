@@ -1,7 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '../components/button';
-import './css/AddImage.css';
+import styled from 'styled-components'
+
+const FileInput = styled.input.attrs({
+  type: 'file'
+})`
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+  left: 0;
+  
+  &:hover + .file-btn {
+    ${Button.hover()}
+  }
+`
 
 class AddImage extends Component {
   _handleImageChange(event) {
@@ -15,7 +29,7 @@ class AddImage extends Component {
     };
 
     reader.readAsDataURL(file);
-    this.refs.file.value = null;
+    this.file.value = null;
   }
 
   addImage = (dataURL) => {
@@ -38,10 +52,14 @@ class AddImage extends Component {
   };
 
   render() {
-    return (<div className="add-image">
-      <Button>Add image</Button>
-      <input type="file" ref="file" onChange={(event)=>this._handleImageChange(event)} />
-    </div>);
+    return (
+      <div className="add-image">
+        <FileInput ref={(file) => this.file = file} onChange={(event)=>this._handleImageChange(event)} />
+        <Button className="file-btn">
+          Add image
+        </Button>
+      </div>
+    );
   }
 }
 
@@ -49,4 +67,3 @@ export default connect((state) => {
   const {image} = state;
   return {image};
 })(AddImage);
-

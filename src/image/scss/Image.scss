@@ -1,0 +1,46 @@
+.image {
+  .add-image {
+    position: relative;
+  }
+
+  .ColorPicker {
+    z-index: 10;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+  }
+
+  #canvas {
+    border: 1px solid yellow;
+  }
+
+  .rotate-preview {
+    .download-link {
+      margin-right: 10px;
+    }
+
+    ul {
+      display: flex;
+      flex-flow: row nowrap;
+      padding: 0;
+
+      li {
+        list-style-type: none;
+
+        &:not(:first-child) {
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+
+  .deg0 { transform: translate(16em); } /* 12em = half the width of the wrapper */
+  .deg45 { transform: rotate(45deg) translate(16em) rotate(-45deg); }
+  .deg135 { transform: rotate(135deg) translate(16em) rotate(-135deg); }
+  .deg180 { transform: translate(-16em); }
+  .deg225 { transform: rotate(225deg) translate(16em) rotate(-225deg); }
+  .deg315 { transform: rotate(315deg) translate(16em) rotate(-315deg); }
+}

@@ -21,9 +21,7 @@ class AddSquare extends Component {
   };
 
   render() {
-    return (<div>
-      <Button onClick={this.addSquare}>Add square</Button>
-    </div>);
+    return <Button onClick={this.addSquare}>Add square</Button>
   }
 }
 

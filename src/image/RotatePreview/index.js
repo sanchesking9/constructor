@@ -1,6 +1,29 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {setSide} from '../../actions/currentSide';
+import styled from 'styled-components';
+
+const Title = styled.div`
+  text-transform: capitalize;
+  font-size: 16px;
+  margin-bottom: 4px;
+`;
+
+const Img = styled.img`
+  cursor: pointer;
+  width: 85px;
+  height: 85px;
+  border: 2px solid transparent;
+  transition: all .3s;
+
+  &:hover {
+      border-color: #dcdcdc;
+  }
+  
+  &.selected {
+      border-color: #0093D1;
+  }
+`
 
 class RotatePreview extends Component {
   state = {}
@@ -59,8 +82,8 @@ class RotatePreview extends Component {
           {config.sidesBackground && config.sidesBackground.length && config.sidesBackground.map((item, index) => {
             return (
               <li key={index}>
-                <div className="title">{item.side}</div>
-                <img
+                <Title>{item.side}</Title>
+                <Img
                   className={item.side === this.props.currentSide && 'selected'}
                   data-side={item.side}
                   onClick={this.changeSide.bind(this)}
