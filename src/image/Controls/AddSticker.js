@@ -35,10 +35,9 @@ class AddSticker extends Component {
 
   render() {
     const {config} = this.props.image;
-    console.log(config);
     return (<div className="AddSticker">
       <Button onClick={this.showSticker}>Add sticker</Button>
-      {this.state.showPopup && <ClickOutside onClickOutside={this.hide}>
+      {this.state.showPopup && <ClickOutside onClickOutside={this.hide.bind(this)}>
         <div className="sticker-popup">
           {config.config && config.config.stickers && config.config.stickers.map((item, index) => {
             return <div key={index} onClick={this.addImage.bind(this, item)}><img src={item} /></div>

@@ -13,7 +13,6 @@ export default (state = initialState, action) => {
       return state;
     case SET_CONFIG:
       state.config = action.config;
-      console.log('action.config', action.config);
       return state;
     case SET_FRAME:
       state.frame = action.frame;

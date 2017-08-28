@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {setConfig, setFrame} from '../actions/image';
 import {clipByName, debounce} from '../Utils';
 import RotatePreview from './RotatePreview/RotatePreview';
+import fetch from 'isomorphic-fetch';
 import './css/Image.css';
 var fabric = require('fabric');
 
@@ -28,7 +29,7 @@ class Image extends Component {
   }
 
   getConfigs() {
-    fetch('/image_builder_config.json')
+    fetch('http://localhost:3000/image_builder_config.json')
       .then((response) => response.json())
       .then((data) => {
         this.setState({
@@ -157,7 +158,7 @@ class Image extends Component {
 
   initFabric() {
     const fjs = fabric.fabric;
-    const canvas = this.canvasObj = new fjs.Canvas('canvas', {stateful: true});
+    this.canvasObj = new fjs.Canvas(this.refs.canvas, {stateful: true});
   }
 
   render() {
@@ -166,7 +167,7 @@ class Image extends Component {
       <h1>{config.title}</h1>
       <div className="wrapper">
         <div className="image-canvas-container">
-          <canvas id="canvas" width="300" height="300"></canvas>
+          <canvas ref="canvas" id="canvas" width="300" height="300"></canvas>
           <ControlContainer config={config} fabric={fabric.fabric} canvas={this.canvasObj}/>
         </div>
         <RotatePreview
