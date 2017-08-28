@@ -1,0 +1,42 @@
+.image {
+  /* 12em = half the width of the wrapper */ }
+  .image .add-image {
+    position: relative; }
+  .image .ColorPicker {
+    z-index: 10; }
+  .image .wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center; }
+  .image #canvas {
+    border: 1px solid yellow; }
+  .image #checkbox {
+    display: none; }
+    .image #checkbox:checked + label span::after {
+      display: block; }
+  .image .download-checkbox {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 10px;
+    cursor: pointer;
+    user-select: none; }
+  .image .rotate-preview ul {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 0; }
+    .image .rotate-preview ul li {
+      list-style-type: none; }
+      .image .rotate-preview ul li:not(:first-child) {
+        margin-left: 15px; }
+  .image .deg0 {
+    transform: translate(16em); }
+  .image .deg45 {
+    transform: rotate(45deg) translate(16em) rotate(-45deg); }
+  .image .deg135 {
+    transform: rotate(135deg) translate(16em) rotate(-135deg); }
+  .image .deg180 {
+    transform: translate(-16em); }
+  .image .deg225 {
+    transform: rotate(225deg) translate(16em) rotate(-225deg); }
+  .image .deg315 {
+    transform: rotate(315deg) translate(16em) rotate(-315deg); }

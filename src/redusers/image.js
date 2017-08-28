@@ -1,9 +1,13 @@
-import {SET_COLOR, SET_CONFIG, SET_FRAME} from '../actions/image';
+import {
+  SET_COLOR,
+  SET_CONFIG,
+  SET_FRAME,
+} from '../actions/image';
 
 const initialState = {
   color: '#fff',
   config: null,
-  frame: {}
+  frame: {},
 };
 
 export default (state = initialState, action) => {

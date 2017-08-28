@@ -22,9 +22,7 @@ class AddText extends Component {
   };
 
   render() {
-    return (<div>
-      <Button onClick={this.addText}>Add text</Button>
-    </div>);
+    return <Button onClick={this.addText}>Add text</Button>
   }
 }
 

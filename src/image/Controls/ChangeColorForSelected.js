@@ -17,9 +17,7 @@ class ChangeColorForSelected extends Component {
   };
 
   render() {
-    return (<div>
-      <Button onClick={this.changeColorForSelected}>Change Color For Selected</Button>
-    </div>);
+    return <Button onClick={this.changeColorForSelected}>Change Color For Selected</Button>
   }
 }
 

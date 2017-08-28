@@ -27,9 +27,7 @@ class AddCircle extends Component {
   };
 
   render() {
-    return (<div>
-      <Button onClick={this.addCircle.bind(this)}>Add circle</Button>
-    </div>);
+    return <Button onClick={this.addCircle.bind(this)}>Add circle</Button>
   }
 }
 
