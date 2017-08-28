@@ -9,7 +9,7 @@ const hoverButton = () => `
   color: #fff;
 `
 
-const ControlButton = styled.div`
+export const ControlButton = styled.div`
   box-sizing: border-box;
   background: #fff; 
   color: ${buttonTextColor};

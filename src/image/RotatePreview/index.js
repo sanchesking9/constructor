@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {setSide} from '../../actions/currentSide';
 import styled from 'styled-components';
+import {ControlButton} from '../components/button';
 
 const Title = styled.div`
   text-transform: capitalize;
@@ -22,6 +23,34 @@ const Img = styled.img`
   
   &.selected {
       border-color: #0093D1;
+  }
+`
+
+let DownloadLink = ControlButton.withComponent('a');
+DownloadLink = styled(DownloadLink)`
+  text-decoration: none;
+`
+
+const Checkbox = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border: 2px solid #0093D1;
+  margin-left: 5px;
+  
+  
+  &::after {
+      content: '';
+      width: 10px;
+      margin-bottom: 4px;
+      height: 6px;
+      border-left: 2px solid #0093D1;
+      border-bottom: 2px solid #0093D1;
+      transform: rotate(-45deg);
+      display: none;
   }
 `
 
@@ -63,6 +92,8 @@ class RotatePreview extends Component {
       canvas.backgroundImage = null;
     }
 
+    console.log(this.link);
+
     this.link.href = canvas.toDataURL({format: 'png'});
 
     if (this.saveCheckbox.checked) {
@@ -95,16 +126,19 @@ class RotatePreview extends Component {
           })}
         </ul>
         <div>
-          <a
+          <DownloadLink
             className="download-link"
-            ref={link => this.link = link}
-            href='' onClick={this.download.bind(this)}
-            download='test.png'>
+            innerRef={link => this.link = link}
+            href=''
+            onClick={this.download.bind(this)}
+            download='test.png'
+          >
             Save
-          </a>
-          <label className="download-checkbox">
+          </DownloadLink>
+          <input ref={saveCheckbox => this.saveCheckbox = saveCheckbox} type="checkbox" id="checkbox" defaultChecked={false}/>
+          <label htmlFor="checkbox" className="download-checkbox">
             Save without background
-            <input ref={saveCheckbox => this.saveCheckbox = saveCheckbox} type="checkbox"/>
+            <Checkbox/>
           </label>
         </div>
       </div>

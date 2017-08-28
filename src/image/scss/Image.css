@@ -10,8 +10,16 @@
     justify-content: center; }
   .image #canvas {
     border: 1px solid yellow; }
-  .image .rotate-preview .download-link {
-    margin-right: 10px; }
+  .image #checkbox {
+    display: none; }
+    .image #checkbox:checked + label span::after {
+      display: block; }
+  .image .download-checkbox {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 10px;
+    cursor: pointer;
+    user-select: none; }
   .image .rotate-preview ul {
     display: flex;
     flex-flow: row nowrap;

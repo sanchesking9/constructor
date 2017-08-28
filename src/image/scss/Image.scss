@@ -17,11 +17,29 @@
     border: 1px solid yellow;
   }
 
-  .rotate-preview {
-    .download-link {
-      margin-right: 10px;
-    }
+  #checkbox {
+    display: none;
 
+    &:checked {
+      + label {
+        span {
+          &::after {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  .download-checkbox {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .rotate-preview {
     ul {
       display: flex;
       flex-flow: row nowrap;

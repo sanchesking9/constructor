@@ -1,4 +1,16 @@
 import React, {Component} from 'react';
+import Button from '../components/button';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  margin-top: 15px;
+  
+  .control-button:first-child {
+      margin-right: 5px;
+  }
+`
 
 export default class UndoRedo extends Component {
   constructor(props) {
@@ -98,10 +110,10 @@ export default class UndoRedo extends Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.undo.bind(this)}>Undo</button>
-        <button onClick={this.redo.bind(this)}>Redo</button>
-      </div>
+      <Wrapper>
+        <Button type="square" onClick={this.undo.bind(this)}>Undo</Button>
+        <Button type="square" onClick={this.redo.bind(this)}>Redo</Button>
+      </Wrapper>
     )
   }
 }
